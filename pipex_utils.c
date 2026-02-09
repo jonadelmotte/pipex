@@ -6,11 +6,18 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/09 16:21:18 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/09 17:59:12 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*is_already_path(char *cmd, char *envp[])
+{
+	if (access(cmd, X_OK | F_OK) == 0)
+		return (cmd);
+	return (NULL);
+}
 
 void	exec(char *cmd, char *envp[])
 {
@@ -39,6 +46,8 @@ char	*is_accessible(char *cmd, char *envp[])
 	int		i;
 
 	i = 0;
+	if (is_already_path(cmd, envp))
+		return (cmd);
 	all_path = ft_split(ft_getenv("PATH", envp), ':');
 	s_cmd = ft_split(cmd, ' ');
 	while (all_path[i])
