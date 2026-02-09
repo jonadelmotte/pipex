@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/09 12:18:24 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:21:18 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	exec(char *cmd, char *envp[])
 	path = is_accessible(s_cmd[0], envp);
 	if (execve(path, s_cmd, envp) == -1)
 	{
+		
 		free_tab(s_cmd);
-		free(path);
-		ft_printf("Error\ndid not exec cmd\n");
-		exit(0);
+		ft_putendl_fd("Error\nnot a valid command", 2);
+		exit(-1);
 	}
 	free_tab(s_cmd);
 	free(path);
@@ -58,5 +58,5 @@ char	*is_accessible(char *cmd, char *envp[])
 	}
 	free_tab(s_cmd);
 	free_tab(all_path);
-	return (NULL);
+	return (cmd);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/05 11:04:36 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/09 12:22:08 by jdelmott         ###   ########.fr       */
+/*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
+/*   Updated: 2026/02/09 17:03:17 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	parent_proc(int f2, char *comd2, int end_pipe[2], char *envp[])
 {
 	int	status;
 
-	// waitpid(-1, &status, 0);
-	wait(&status);
+	waitpid(-1, &status, 0);
+	// wait(&status);
 	dup2(f2, STDOUT_FILENO);
 	dup2(end_pipe[0], STDIN_FILENO);
 	close(end_pipe[1]);
@@ -55,15 +55,15 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	int	f1;
 	int	f2;
-	
-    if (argc != 5)
+
+	if (argc != 5)
 		return (1);
 	f1 = open(argv[1], O_RDONLY);
 	if (f1 == -1)
 		return (1);
 	f2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC);
-    if (f2 == -1)
-        return (1);
-    pipex(f1, f2, argv, envp);
+	if (f2 == -1)
+		return (1);
+	pipex(f1, f2, argv, envp);
 	return (0);
 }
