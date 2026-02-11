@@ -3,34 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelmott <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/18 15:50:00 by jdelmott          #+#    #+#             */
-/*   Updated: 2025/11/18 16:16:47 by jdelmott         ###   ########.fr       */
+/*   Created: 2025/11/24 09:21:26 by jdelmott          #+#    #+#             */
+/*   Updated: 2026/02/10 14:13:43 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+int	ft_putnbr_fd(int i, int fd)
 {
-	long int	i;
-	char		nb;
+	static int	k;
+	int			neg;
 
-	i = (long int)n;
+	neg = 0;
+	k = 0;
+	if (i == -2147483648)
+	{
+		ft_putstr_fd("-2147483648", fd);
+		return (11);
+	}
 	if (i < 0)
 	{
-		write(fd, "-", 1);
+		neg++;
+		if (ft_putchar_fd('-', fd) == -1)
+			return (-1);
 		i = -i;
 	}
-	if (i > 9)
-	{
-		ft_putnbr_fd((i / 10), fd);
-		ft_putnbr_fd((i % 10), fd);
-	}
-	else
-	{
-		nb = i + '0';
-		write(fd, &nb, 1);
-	}
+	if (i >= 10)
+		ft_putnbr_fd(i / 10, fd);
+	if (neg != 0)
+		k++;
+	if (ft_putchar_fd((i % 10) + '0', fd) == -1)
+		return (-1);
+	k++;
+	return (k);
 }

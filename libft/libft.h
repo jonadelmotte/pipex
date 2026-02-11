@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 12:19:31 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/09 09:38:19 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/10 14:22:37 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ char				**split_free(char **split, int k);
 char				*ft_itoa(int n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
-void				ft_putchar_fd(char c, int fd);
-void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
-void				ft_putnbr_fd(int n, int fd);
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);
@@ -90,6 +87,14 @@ int					ft_putnbr_u(unsigned int i);
 int					ft_putchar(char c);
 int					ft_putstr(char *str);
 int					ft_printf(const char *str, ...);
+
+int					ft_printf_fd(int fd, const char *str, ...);
+int					ft_putnbr_fd(int i, int fd);
+int					ft_putchar_fd(char c, int fd);
+int					ft_putstr_fd(char *s, int fd);
+int					ft_putnbr_base_fd(unsigned int p, char *base, int fd);
+int					ft_putnbr_p_fd(unsigned long s, int fd);
+int					ft_putnbr_u_fd(unsigned int s, int fd);
 
 char				*ft_getenv(const char *name, char **env);
 void				free_tab(char **tab);

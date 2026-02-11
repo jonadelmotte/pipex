@@ -6,16 +6,22 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/09 17:59:12 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/11 12:22:56 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*is_already_path(char *cmd, char *envp[])
+char	*is_already_path(char *cmd)
 {
+	char	*path;
+
 	if (access(cmd, X_OK | F_OK) == 0)
 		return (cmd);
+	path = ft_strjoin("/", cmd);
+	if (access(path, X_OK | F_OK) == 0)
+		return (path);
+	free(path);
 	return (NULL);
 }
 
@@ -28,7 +34,6 @@ void	exec(char *cmd, char *envp[])
 	path = is_accessible(s_cmd[0], envp);
 	if (execve(path, s_cmd, envp) == -1)
 	{
-		
 		free_tab(s_cmd);
 		ft_putendl_fd("Error\nnot a valid command", 2);
 		exit(-1);
@@ -46,7 +51,7 @@ char	*is_accessible(char *cmd, char *envp[])
 	int		i;
 
 	i = 0;
-	if (is_already_path(cmd, envp))
+	if (is_already_path(cmd))
 		return (cmd);
 	all_path = ft_split(ft_getenv("PATH", envp), ':');
 	s_cmd = ft_split(cmd, ' ');

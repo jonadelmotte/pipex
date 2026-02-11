@@ -6,7 +6,7 @@
 #    By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 14:01:59 by malaimo           #+#    #+#              #
-#    Updated: 2026/02/09 09:38:40 by jdelmott         ###   ########.fr        #
+#    Updated: 2026/02/10 14:22:46 by jdelmott         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,10 @@ SRC = ./ft_isalpha.c\
       ./ft_strnstr_back.c\
       ./ft_strcmp.c\
       ./ft_getenv.c\
+      ./ft_printf_fd.c\
+      ./ft_putnbr_base_fd.c\
+      ./ft_putnbr_p_fd.c\
+      ./ft_putnbr_u_fd.c\
       ./free_tab.c\
 
 CC = cc

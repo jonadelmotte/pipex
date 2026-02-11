@@ -1,26 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tab.c                                         :+:      :+:    :+:   */
+/*   ft_putnbr_p_fd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/10 14:21:12 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/10 14:38:54 by jdelmott         ###   ########.fr       */
+/*   Created: 2025/11/25 10:37:05 by jdelmott          #+#    #+#             */
+/*   Updated: 2026/02/10 14:14:03 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	free_tab(char **tab)
+static int	ft_print(unsigned long i, int fd)
 {
-    size_t  i;
+	char		*base;
+	static int	k;
+	int			j;
 
-    i = 0;
-    while (tab[i])
-    {
-        free(tab[i]);
-        i++;
-    }
-    free(tab);
+	k = 0;
+	base = "0123456789abcdef";
+	if (i > 15)
+		ft_print(i / 16, fd);
+	j = ft_putchar_fd(base[i % 16], fd);
+	if (j == -1)
+		return (-1);
+	k += j;
+	return (k);
+}
+
+int	ft_putnbr_p_fd(unsigned long s, int fd)
+{
+	if (s == 0)
+		return (ft_putstr_fd("(nil)", fd));
+	ft_putstr_fd("0x", fd);
+	return (ft_print(s, fd) + 2);
 }

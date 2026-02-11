@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tab.c                                         :+:      :+:    :+:   */
+/*   ft_putnbr_u_fd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/10 14:21:12 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/10 14:38:54 by jdelmott         ###   ########.fr       */
+/*   Created: 2025/11/25 12:03:22 by jdelmott          #+#    #+#             */
+/*   Updated: 2026/02/10 14:14:09 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	free_tab(char **tab)
+int	ft_putnbr_u_fd(unsigned int i, int fd)
 {
-    size_t  i;
+	static int	k;
+	int			j;
 
-    i = 0;
-    while (tab[i])
-    {
-        free(tab[i]);
-        i++;
-    }
-    free(tab);
+	k = 0;
+	if (i >= 10)
+		ft_putnbr_u_fd(i / 10, fd);
+	j = ft_putchar_fd((i % 10) + '0', fd);
+	if (j == -1)
+		return (-1);
+	k += j;
+	return (k);
 }
