@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/11 14:03:14 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:12:21 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec(char *cmd, char *envp[])
 	if (execve(path, s_cmd, envp) == -1)
 	{
 		free_tab(s_cmd);
-		ft_putendl_fd("Error\nnot a valid command", 2);
+		ft_printf_fd(2, "pipex: command not found: %s\n", cmd);
 		exit(-1);
 	}
 	free_tab(s_cmd);

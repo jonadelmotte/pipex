@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/11 13:45:12 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:16:15 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,16 @@ int	main(int argc, char *argv[], char *envp[])
 		return (1);
 	f1 = open(argv[1], O_RDONLY, 0777);
 	if (f1 == -1)
+	{
+		ft_printf_fd(2, "pipex: no such file or directory: %s\n", argv[1]);
 		return (1);
+	}
 	f2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (f2 == -1)
+	{
+		ft_printf_fd(2, "pipex: %s: Permission denied\n", argv[4]);
 		return (1);
+	}
 	pipex(f1, f2, argv, envp);
 	return (0);
 }
