@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/09 17:03:17 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:12:21 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	parent_proc(int f2, char *comd2, int end_pipe[2], char *envp[])
 	int	status;
 
 	waitpid(-1, &status, 0);
-	// wait(&status);
+	if (WEXITSTATUS(status) == -1)
+		exit (1);
 	dup2(f2, STDOUT_FILENO);
 	dup2(end_pipe[0], STDIN_FILENO);
 	close(end_pipe[1]);
