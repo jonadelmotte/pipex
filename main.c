@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/11 13:12:21 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:45:12 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parent_proc(int f2, char *comd2, int end_pipe[2], char *envp[])
 
 	waitpid(-1, &status, 0);
 	if (WEXITSTATUS(status) == -1)
-		exit (1);
+		exit(1);
 	dup2(f2, STDOUT_FILENO);
 	dup2(end_pipe[0], STDIN_FILENO);
 	close(end_pipe[1]);
@@ -59,10 +59,10 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc != 5)
 		return (1);
-	f1 = open(argv[1], O_RDONLY);
+	f1 = open(argv[1], O_RDONLY, 0777);
 	if (f1 == -1)
 		return (1);
-	f2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC);
+	f2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (f2 == -1)
 		return (1);
 	pipex(f1, f2, argv, envp);
