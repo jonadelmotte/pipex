@@ -6,11 +6,36 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/11 14:12:21 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/12 13:43:07 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	open_file(char *fd_arg, int mode)
+{
+	int	fd;
+
+	if (mode == 0)
+	{
+		fd = open(fd_arg, O_RDONLY, 0777);
+		if (fd == -1)
+		{
+			ft_printf_fd(2, "pipex: %s: Permission denied\n", fd_arg);
+			exit(0);
+		}
+	}
+	else
+	{
+		fd = open(fd_arg, O_CREAT | O_RDWR | O_TRUNC, 0777);
+		if (fd == -1)
+		{
+			ft_printf_fd(2, "pipex: %s: Permission denied\n", fd_arg);
+			exit(0);
+		}
+	}
+	return (fd);
+}
 
 char	*is_already_path(char *cmd)
 {
@@ -41,7 +66,7 @@ void	exec(char *cmd, char *envp[])
 	{
 		free_tab(s_cmd);
 		ft_printf_fd(2, "pipex: command not found: %s\n", cmd);
-		exit(-1);
+		exit(127);
 	}
 	free_tab(s_cmd);
 	free(path);
