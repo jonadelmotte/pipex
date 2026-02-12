@@ -21,6 +21,9 @@ $(NAME): $(OBJS) $(LIBFT)
 %.o: %.c
 	$(CC) $(CFLAGS) -I. -I$(LIBFT_DIR) -c $< -o $@
 
+$(LIBFT):
+	make -C $(LIBFT_DIR)
+
 clean:
 	$(RM) $(OBJS)
 	make clean -C $(LIBFT_DIR)
