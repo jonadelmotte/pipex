@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/12 13:53:40 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/12 14:27:28 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ void	pipex(char *argv[], char *envp[])
 	parent2 = fork();
 	if (!parent2)
 		child2_proc(argv[4], argv[3], end_pipe, envp);
-	waitpid(-1, &status, WEXITSTATUS(status));
-	/*if (WEXITSTATUS(status) == -1)
-		exit (127);*/
+	waitpid(-1, &status, 0);
+	if (WIFEXITED(status))
+		// ft_printf_fd(2, "the status of the child is %i, %i\n", WEXITSTATUS(status), WIFEXITED(status));
+		exit(WEXITSTATUS(status));
 	exit(0);
 }
 
@@ -62,8 +63,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	if (argc != 5)
 	{
-		ft_printf_fd(2,
-			"pipex: ./pipex infile cmd1 cmd2 outfile\n");
+		ft_printf_fd(2, "pipex: ./pipex infile cmd1 cmd2 outfile\n");
 		return (1);
 	}
 	pipex(argv, envp);

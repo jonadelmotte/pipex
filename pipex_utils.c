@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/12 13:43:07 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/12 14:27:50 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	open_file(char *fd_arg, int mode)
 		if (fd == -1)
 		{
 			ft_printf_fd(2, "pipex: %s: Permission denied\n", fd_arg);
-			exit(0);
+			exit(2);
 		}
 	}
 	return (fd);
