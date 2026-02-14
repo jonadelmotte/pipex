@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/14 13:01:15 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/14 17:08:41 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,33 @@ int	open_file(char *fd_arg, int mode)
 	return (fd);
 }
 
+static void	no_fil_dir(char *cmd)
+{
+	char	**split;
+	char	*path;
+
+	split = ft_split(cmd, '/');
+	if (ft_strcmp(split[0], "usr") == 0 && ft_strcmp(split[1], "bin") == 0)
+	{
+		free_tab(split);
+		if (access(cmd, X_OK | F_OK) != 0)
+		{
+			path = ft_strjoin("/", cmd);
+			if (access(path, X_OK | F_OK) != 0)
+			{
+				free(path);
+				ft_printf_fd(2, "pipex: no such file or directory: %s\n", cmd);
+				exit(127);
+			}
+		}
+	}
+}
+
 char	*is_already_path(char *cmd)
 {
 	char	*path;
 
+	no_fil_dir(cmd);
 	if (access(cmd, X_OK | F_OK) == 0)
 		return (cmd);
 	path = ft_strjoin("/", cmd);
@@ -55,8 +78,13 @@ void	exec(char *cmd, char *envp[])
 	char	*path;
 	char	**s_cmd;
 
-	s_cmd = ft_split(cmd, ' ');
 	path = is_already_path(cmd);
+	s_cmd = ft_split(cmd, ' ');
+	if (s_cmd[0] == NULL)
+	{
+		ft_printf_fd(2, "pipex: command not found: \n");
+		exit (127);
+	}
 	if (path == NULL)
 	{
 		free(path);
@@ -70,6 +98,7 @@ void	exec(char *cmd, char *envp[])
 	}
 	free_tab(s_cmd);
 	free(path);
+	exit (1);
 }
 
 char	*is_accessible(char *cmd, char *envp[])
