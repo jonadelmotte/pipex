@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/12 14:27:28 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/14 16:36:09 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	pipex(char *argv[], char *envp[])
 	pid_t	parent;
 	pid_t	parent2;
 	int		status;
+	int		status2;
 
 	pipe(end_pipe);
 	parent = fork();
@@ -52,11 +53,16 @@ void	pipex(char *argv[], char *envp[])
 	parent2 = fork();
 	if (!parent2)
 		child2_proc(argv[4], argv[3], end_pipe, envp);
-	waitpid(-1, &status, 0);
-	if (WIFEXITED(status))
-		// ft_printf_fd(2, "the status of the child is %i, %i\n", WEXITSTATUS(status), WIFEXITED(status));
-		exit(WEXITSTATUS(status));
+	close(end_pipe[0]);
+	close(end_pipe[1]);
+	waitpid(parent, &status, 0);
+	//ft_printf_fd(2, "yo ?\n");
+	waitpid(parent2, &status2, 0);
+	//ft_printf_fd(2, "yo 2 ?\n");
+	if (WIFEXITED(status2))
+		exit (WEXITSTATUS(status2));
 	exit(0);
+	//exit (status);
 }
 
 int	main(int argc, char *argv[], char *envp[])
