@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:56:36 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/19 11:32:18 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/23 10:30:11 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ typedef struct s_accessible
 	int		i;
 }			t_accessible;
 
+//	PIPEX
 char		*is_accessible(char *cmd, char *envp[]);
 void		exec(char *cmd, char *envp[]);
 int			open_file(char *fd_arg, int mode);
+
+//	PIPEX_BONUS
 char		*gnl_pipex(int fd, char *arg);
 
 #endif

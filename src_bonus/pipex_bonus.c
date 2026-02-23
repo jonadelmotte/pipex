@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/19 11:32:51 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/23 11:43:31 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ void	here_doc(char *argv[])
 	pipe(end_pipe);
 	child = fork();
 	if (!child)
-	{
+	{		
+		ft_printf_fd(2, "pipe heredoc> ");
 		join = ft_strjoin(argv[2], "\n");
 		gnl = gnl_pipex(0, join);
 		close(end_pipe[0]);
+
 		while (ft_strcmp(gnl, join) != 0)
 		{
+			ft_printf_fd(2, "pipe heredoc> ");
 			ft_printf_fd(end_pipe[1], "%s", gnl);
 			free(gnl);
 			gnl = gnl_pipex(0, join);
@@ -49,6 +52,11 @@ void	pipex_bonus(char *cmd, char *envp[])
 	pid_t	child;
 	int		end_pipe[2];
 
+	if (!cmd[0])
+	{
+		ft_printf_fd(2, "pipex: permission denied: \n");
+		exit (127);
+	}
 	pipe(end_pipe);
 	child = fork();
 	if (!child)
@@ -71,8 +79,12 @@ int	main(int argc, char *argv[], char *envp[])
 	int		fd_outfile;
 
 	i = 2;
+	if (argc < 4)
+		return (1);
 	if (ft_strcmp(argv[1], "here_doc") == 0)
 	{
+		if (argc < 5)
+			return (1);
 		i = 3;
 		fd_outfile = open_file(argv[argc - 1], 1);
 		here_doc(argv);
@@ -80,7 +92,7 @@ int	main(int argc, char *argv[], char *envp[])
 	else
 	{
 		fd_infile = open_file(argv[1], 0);
-		fd_outfile = open_file(argv[argc - 1], 1);
+		fd_outfile = open_file(argv[argc - 1], 2);
 		dup2(fd_infile, 0);
 	}
 	while (argv[i + 2] != NULL)

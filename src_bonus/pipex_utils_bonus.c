@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/19 11:09:35 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/23 11:44:01 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,17 @@ int	open_file(char *fd_arg, int mode)
 	int	fd;
 
 	if (mode == 0)
-	{
 		fd = open(fd_arg, O_RDONLY, 0777);
-		if (fd == -1)
-		{
-			ft_printf_fd(2, "pipex: %s: Permission denied\n", fd_arg);
-			exit(126);
-		}
-	}
-	else
-	{
+	else if (mode == 1)
 		fd = open(fd_arg, O_CREAT | O_RDWR | O_APPEND, 0777);
-		if (fd == -1)
-		{
-			ft_printf_fd(2, "pipex: %s: Permission denied\n", fd_arg);
+	else
+		fd = open(fd_arg, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	if (fd == -1)
+	{
+		ft_printf_fd(2, "pipex: %s: Permission denied\n", fd_arg);
+		if (mode == 0)
 			exit(126);
-		}
+		exit (1);
 	}
 	return (fd);
 }
@@ -57,6 +52,7 @@ static void	no_fil_dir(char *cmd)
 			}
 		}
 	}
+	free_tab(split);
 }
 
 char	*is_already_path(char *cmd)
@@ -98,7 +94,7 @@ void	exec(char *cmd, char *envp[])
 	}
 	free_tab(s_cmd);
 	free(path);
-	exit (1);
+	exit (0);
 }
 
 char	*is_accessible(char *cmd, char *envp[])

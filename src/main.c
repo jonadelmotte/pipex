@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/18 12:06:32 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/23 11:40:31 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	child1_proc(char *file1, char *comd1, int end_pipe[2], char *envp[])
 {
 	int	fd;
 
+	if (!comd1[0])
+	{
+		ft_printf_fd(2, "pipex: permission denied: \n");
+		exit (127);
+	}
 	fd = open_file(file1, 0);
 	dup2(fd, STDIN_FILENO);
 	dup2(end_pipe[1], STDOUT_FILENO);
@@ -28,6 +33,11 @@ void	child2_proc(char *file2, char *comd2, int end_pipe[2], char *envp[])
 {
 	int	fd;
 
+	if (!comd2[0])
+	{
+		ft_printf_fd(2, "pipex: permission denied \n");
+		exit (127);
+	}
 	fd = open_file(file2, 1);
 	dup2(fd, STDOUT_FILENO);
 	dup2(end_pipe[0], STDIN_FILENO);
@@ -50,16 +60,15 @@ void	pipex(char *argv[], char *envp[])
 		exit(-1);
 	if (!parent)
 		child1_proc(argv[1], argv[2], end_pipe, envp);
-	//waitpid(parent, &status, 0);
 	parent2 = fork();
 	if (!parent2)
 		child2_proc(argv[4], argv[3], end_pipe, envp);
 	close(end_pipe[0]);
 	close(end_pipe[1]);
 	waitpid(parent, &status, 0);
-	waitpid(parent2, &status2, 0);// parfois il fait les deux en meme temps et c'est chiant mais jsp comment faire
+	waitpid(parent2, &status2, 0);
 	if (WIFEXITED(status2))
-		exit (WEXITSTATUS(status2));
+		exit(WEXITSTATUS(status2));
 	exit(0);
 }
 
