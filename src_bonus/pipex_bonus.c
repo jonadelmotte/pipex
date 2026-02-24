@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/23 11:43:31 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/24 17:42:36 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,31 @@ void	here_doc(char *argv[])
 		wait(NULL);
 		close(end_pipe[1]);
 		dup2(end_pipe[0], 0);
+	}
+}
+
+void	last_child(char *cmd, char *envp[], int outfile)
+{
+	pid_t	child;
+	int		status;
+	
+	if (!cmd[0])
+	{
+		ft_printf_fd(2, "pipex: permission denied: \n");
+		exit (127);
+	}
+	child = fork();
+	if (!child)
+	{
+		dup2(outfile, 1);
+		exec(cmd, envp);
+	}
+	else
+	{
+		waitpid(child, &status, 0);
+		if (WIFEXITED(status))
+			exit(WEXITSTATUS(status));
+		exit(0);
 	}
 }
 
@@ -97,6 +122,7 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	while (argv[i + 2] != NULL)
 		pipex_bonus(argv[i++], envp);
-	dup2(fd_outfile, 1);
-	exec(argv[i], envp);
+	last_child(argv[i], envp, fd_outfile);
+	//dup2(fd_outfile, 1);
+	//exec(argv[i], envp);
 }
