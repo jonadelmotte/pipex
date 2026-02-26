@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/26 13:30:56 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:05:40 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,42 +27,48 @@ int	open_file(char *fd_arg, int mode)
 		ft_printf_fd(2, "pipex: %s: Permission denied\n", fd_arg);
 		if (mode == 0)
 			exit(126);
-		exit (1);
+		exit(1);
 	}
 	return (fd);
 }
 
-static void	no_fil_dir(char *cmd)
+static int	no_fil_dir(t_command *command)
 {
 	char	**split;
 	char	*path;
 
-	split = ft_split(cmd, '/');
+	split = ft_split(command->s_cmd[0], '/');
 	if (ft_strcmp(split[0], "usr") == 0 && ft_strcmp(split[1], "bin") == 0)
 	{
-		free_tab(split);
-		if (access(cmd, X_OK | F_OK) != 0)
+		if (access(command->s_cmd[0], X_OK | F_OK) != 0)
 		{
-			path = ft_strjoin("/", cmd);
+			path = ft_strjoin("/", command->s_cmd[0]);
 			if (access(path, X_OK | F_OK) != 0)
 			{
+				command->free = 1;
+				free_tab(split);
 				free(path);
-				ft_printf_fd(2, "pipex: no such file or directory: %s\n", cmd);
-				exit(127);
+				ft_printf_fd(2, "pipex: no such file or directory: %s\n",
+					command->s_cmd[0]);
+				return (127);
 			}
 		}
 	}
 	free_tab(split);
+	return (0);
 }
 
-char	*is_already_path(char *cmd)
+char	*is_already_path(t_command *command)
 {
 	char	*path;
 
-	no_fil_dir(cmd);
-	if (access(cmd, X_OK | F_OK) == 0)
-		return (cmd);
-	path = ft_strjoin("/", cmd);
+	if (!*command->s_cmd)
+		return (NULL);
+	if (no_fil_dir(command) == 127)
+		return (NULL);
+	if (access(command->s_cmd[0], X_OK | F_OK) == 0)
+		return (command->s_cmd[0]);
+	path = ft_strjoin("/", command->s_cmd[0]);
 	if (access(path, X_OK | F_OK) == 0)
 		return (path);
 	free(path);
@@ -71,31 +77,30 @@ char	*is_already_path(char *cmd)
 
 void	exec(char *cmd, char *envp[])
 {
-	char	*path;
-	char	**s_cmd;
+	char		*path;
+	t_command	command;
 
-	path = is_already_path(cmd);
-	s_cmd = split_pipex(cmd, ' ');
-	if (s_cmd[0] == NULL)
+	if (!cmd[0])
+		exit(1);
+	command.free = 0;
+	command.s_cmd = split_pipex(cmd, ' ');
+	path = is_already_path(&command);
+	if (command.s_cmd[0] == NULL)
 	{
-		free_tab(s_cmd);
-		ft_printf_fd(2, "pipex: command not found: \n");
-		exit (127);
-	}
-	if (path == NULL)
-	{
-		free(path);
-		path = is_accessible(s_cmd[0], envp);
-	}
-	if (execve(path, s_cmd, envp) == -1)
-	{
-		free_tab(s_cmd);
-		ft_printf_fd(2, "pipex: command not found: %s\n", cmd);
+		free_tab(command.s_cmd);
+		if (command.free == 0)
+			ft_printf_fd(2, "pipex: command not found: \n");
 		exit(127);
 	}
-	free_tab(s_cmd);
-	free(path);
-	exit (0);
+	if (path == NULL)
+		path = is_accessible(command.s_cmd[0], envp);
+	if (execve(path, command.s_cmd, envp) == -1)
+	{
+		free_tab(command.s_cmd);
+		if (command.free == 0)
+			ft_printf_fd(2, "pipex: command not found: %s\n", cmd);
+		exit(127);
+	}
 }
 
 char	*is_accessible(char *cmd, char *envp[])

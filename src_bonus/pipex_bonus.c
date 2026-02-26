@@ -6,39 +6,42 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/25 16:03:09 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/26 15:14:51 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+void	here_doc_next(char *argv[], int end_pipe[2])
+{
+	char	*gnl;
+	char	*join;
+
+	ft_printf_fd(2, "pipe heredoc> ");
+	join = ft_strjoin(argv[2], "\n");
+	gnl = gnl_pipex(0, join);
+	close(end_pipe[0]);
+	while (ft_strcmp(gnl, join) != 0)
+	{
+		ft_printf_fd(2, "pipe heredoc> ");
+		ft_printf_fd(end_pipe[1], "%s", gnl);
+		free(gnl);
+		gnl = gnl_pipex(0, join);
+	}
+	free(join);
+	free(gnl);
+	exit(0);
+}
+
 void	here_doc(char *argv[])
 {
 	int		end_pipe[2];
 	pid_t	child;
-	char	*gnl;
-	char	*join;
-	
+
 	pipe(end_pipe);
 	child = fork();
 	if (!child)
-	{		
-		ft_printf_fd(2, "pipe heredoc> ");
-		join = ft_strjoin(argv[2], "\n");
-		gnl = gnl_pipex(0, join);
-		close(end_pipe[0]);
-
-		while (ft_strcmp(gnl, join) != 0)
-		{
-			ft_printf_fd(2, "pipe heredoc> ");
-			ft_printf_fd(end_pipe[1], "%s", gnl);
-			free(gnl);
-			gnl = gnl_pipex(0, join);
-		}
-		free(join);
-		free(gnl);
-		exit(0);
-	}
+		here_doc_next(argv, end_pipe);
 	else
 	{
 		wait(NULL);
@@ -51,11 +54,11 @@ void	last_child(char *cmd, char *envp[], int outfile)
 {
 	pid_t	child;
 	int		status;
-	
+
 	if (!cmd[0])
 	{
 		ft_printf_fd(2, "pipex: permission denied: \n");
-		exit (127);
+		exit(127);
 	}
 	child = fork();
 	if (!child)
@@ -80,7 +83,7 @@ void	pipex_bonus(char *cmd, char *envp[])
 	if (!cmd[0])
 	{
 		ft_printf_fd(2, "pipex: permission denied: \n");
-		exit (127);
+		exit(127);
 	}
 	pipe(end_pipe);
 	child = fork();
@@ -97,7 +100,7 @@ void	pipex_bonus(char *cmd, char *envp[])
 	}
 }
 
-int	main(int argc, char *argv[], char *envp[])// split : ' ' ' ';
+int	main(int argc, char *argv[], char *envp[])
 {
 	size_t	i;
 	int		fd_infile;
@@ -108,7 +111,7 @@ int	main(int argc, char *argv[], char *envp[])// split : ' ' ' ';
 		return (1);
 	if (ft_strcmp(argv[1], "here_doc") == 0)
 	{
-		if (argc < 5)
+		if (argc <= 5)
 			return (1);
 		i = 3;
 		fd_outfile = open_file(argv[argc - 1], 1);
@@ -123,6 +126,4 @@ int	main(int argc, char *argv[], char *envp[])// split : ' ' ' ';
 	while (argv[i + 2] != NULL)
 		pipex_bonus(argv[i++], envp);
 	last_child(argv[i], envp, fd_outfile);
-	//dup2(fd_outfile, 1);
-	//exec(argv[i], envp);
 }
