@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:25:16 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/24 17:42:36 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/25 16:03:09 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	pipex_bonus(char *cmd, char *envp[])
 	}
 }
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])// split : ' ' ' ';
 {
 	size_t	i;
 	int		fd_infile;

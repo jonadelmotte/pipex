@@ -14,7 +14,7 @@ creat a program that behave exactly like the following shell command : <br />
 &emsp; In the `< file1 cmd1` shell command, `file1` becomes the new STDIN.  
 &emsp; `cmd1` is not applied on the standart input anymore but on the content of `file1`.
 
-### ">" symbol:
+### " > " symbol:
 
 &emsp; The `>` symbol is an "output redirection" symbole. <br />
 &emsp; In the `cmd2 > file2` shell command, `fil2` becomes the new STDOUT. <br />
@@ -33,3 +33,21 @@ then use:
 &emsp; `./pipex file1 cmd1 cmd2 file2`  
 replacing `file1` and `file2` with files.  
 and replacing `cmd1` and `cmd2` with shell commands.
+<br />
+## Bonus
+
+### Description
+
+there are tow part to the bonus of pipex.  
+- First the programe must be able to handle multiple pipes : <br />
+&emsp; `< file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2` <br />
+in my program :<br />
+&emsp; `./pipex_bonus file1 cmd1 cmd2 cmd3 ... cmdn file2`  
+<br />
+- the second part is a little more tricky.  <br />
+we must recreate the behaviour of this shell command : <br />
+&emsp; `cmd << LIMITER | cmd1 >> file` <br />
+
+### " << " symbol:
+
+&emsp; The `<<` symbol is known as a `here-document` structure. <br />

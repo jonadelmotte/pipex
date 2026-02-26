@@ -1,5 +1,6 @@
 SRCS		=	./src/main.c\
 				./src/pipex_utils.c\
+				./src/split_pipex.c\
 
 SRCS_BONUS	=	./src_bonus/pipex_bonus.c\
 				./src_bonus/pipex_utils_bonus.c\

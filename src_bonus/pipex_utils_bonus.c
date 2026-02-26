@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/23 11:44:01 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/25 15:08:09 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	exec(char *cmd, char *envp[])
 	s_cmd = ft_split(cmd, ' ');
 	if (s_cmd[0] == NULL)
 	{
+		free_tab(s_cmd);
 		ft_printf_fd(2, "pipex: command not found: \n");
 		exit (127);
 	}
