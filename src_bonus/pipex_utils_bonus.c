@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:12:52 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/25 15:08:09 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/02/26 13:30:56 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	exec(char *cmd, char *envp[])
 	char	**s_cmd;
 
 	path = is_already_path(cmd);
-	s_cmd = ft_split(cmd, ' ');
+	s_cmd = split_pipex(cmd, ' ');
 	if (s_cmd[0] == NULL)
 	{
 		free_tab(s_cmd);

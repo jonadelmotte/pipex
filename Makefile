@@ -5,6 +5,7 @@ SRCS		=	./src/main.c\
 SRCS_BONUS	=	./src_bonus/pipex_bonus.c\
 				./src_bonus/pipex_utils_bonus.c\
 				./src_bonus/gnl_pipex.c\
+				./src_bonus/split_pipex.c\
 
 OBJS		= $(SRCS:.c=.o)
 OBJS_BONUS	= $(SRCS_BONUS:.c=.o)
