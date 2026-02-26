@@ -20,7 +20,7 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 
 RM			= rm -f
 
-all: $(NAME)
+all: $(NAME) bonus
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
