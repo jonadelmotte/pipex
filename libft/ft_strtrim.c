@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelmott <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 16:08:58 by jdelmott          #+#    #+#             */
-/*   Updated: 2025/11/19 11:38:20 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/03/02 13:37:52 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ char	*malloctrim(char *new, char *s1, int start, int end)
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*new;
-	int		j;
 	int		start;
 	int		end;
 
 	new = NULL;
-	j = 0;
 	start = 0;
 	end = ft_strlen(s1) - 1;
 	while (s1[start] && ft_strchr(set, s1[start]))

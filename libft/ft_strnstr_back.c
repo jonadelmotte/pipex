@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 08:58:33 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/01/28 14:32:32 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:34:47 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,16 @@
 
 char	*ft_strnstr_back(const char *big, const char *little, size_t n)
 {
-	const unsigned char	*b;
-	const unsigned char	*l;
-	size_t				i;
-	size_t				j;
+	size_t	i;
+	size_t	j;
 
-	b = (const unsigned char *)big;
-	l = (const unsigned char *)little;
 	i = ft_strlen(big);
 	j = ft_strlen(little);
 	if (*little == 0)
 		return ((char *)big);
 	while (n > 0)
 	{
-		while (big[i] == little[j] && j >= 0 && i >= 0)
+		while (big[i] == little[j] && j && i)
 		{
 			i--;
 			j--;

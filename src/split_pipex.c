@@ -6,7 +6,7 @@
 /*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 12:03:36 by jdelmott          #+#    #+#             */
-/*   Updated: 2026/02/26 12:05:22 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:13:10 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char	**split_pipex(char *str, const char sep)
 	char **split;
 
 	printf("words = %i\n", count_words(argv[1], argv[2][0]));
-	split = ft_split(argv[1], argv[2][0]);
+	split = split_pipex(argv[1], argv[2][0]);
 	while (split[i])
 	{
 		printf("%s\n", split[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelmott <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jdelmott <jdelmott@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 14:25:41 by jdelmott          #+#    #+#             */
-/*   Updated: 2025/11/17 17:09:35 by jdelmott         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:34:43 by jdelmott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 char	*ft_strnstr(const char *big, const char *little, size_t n)
 {
-	const unsigned char	*b;
-	const unsigned char	*l;
-	size_t				i;
-	size_t				j;
+	size_t	i;
+	size_t	j;
 
-	b = (const unsigned char *)big;
-	l = (const unsigned char *)little;
 	i = 0;
 	j = 0;
 	if (*little == 0)
